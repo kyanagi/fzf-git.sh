@@ -312,13 +312,13 @@ elif [[ -n "${ZSH_VERSION:-}" ]]; then
   }
 
   __fzf_git_init() {
-    local m o
+    local m o prefix=${FZF_GIT_KEY_PREFIX:-^g}
     for o in "$@"; do
       eval "fzf-git-$o-widget() { local result=\$(_fzf_git_$o | __fzf_git_join); zle reset-prompt; LBUFFER+=\$result }"
       eval "zle -N fzf-git-$o-widget"
       for m in emacs vicmd viins; do
-        eval "bindkey -M $m '^g^${o[1]}' fzf-git-$o-widget"
-        eval "bindkey -M $m '^g${o[1]}' fzf-git-$o-widget"
+        eval "bindkey -M $m '${prefix}^${o[1]}' fzf-git-$o-widget"
+        eval "bindkey -M $m '${prefix}${o[1]}' fzf-git-$o-widget"
       done
     done
   }
